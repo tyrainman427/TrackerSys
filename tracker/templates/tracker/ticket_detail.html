@@ -1,0 +1,41 @@
+{% extends "tracker/base.html" %}
+
+  {% block body %}
+
+    <div class="container">
+        <div class="row">
+          <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Title</th>
+      <th scope="col">summary</th>
+      <th scope="col">Status</th>
+      <th scope="col">Priority</th>
+      <th scope="col">Created</th>
+      <th scope="col">Assigned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{{ ticket.id }}</th>
+      <td>{{ticket.name}}</td>
+      <td>{{ticket.title}}</td>
+      <td>{{ticket.summary}}</td>
+      <td>{{ticket.current_status}}</td>
+      <td>{{ticket.priority}}</td>
+      <td>{{ticket.created_at}}</td>
+      <td>{{ticket.submitter}}</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+        {%  if user.is_admin %}
+        <a href="update/" class="btn btn-warning btn-sm" role="button">Update Ticket</a>
+        {% else %}
+        <a href="/tracker/" class="btn btn-info btn-sm" role="button">Back</a>
+        {% endif %}
+    </div>
+
+  {% endblock %}
