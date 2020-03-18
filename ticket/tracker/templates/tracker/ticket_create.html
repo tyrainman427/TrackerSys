@@ -1,6 +1,5 @@
 {% extends "tracker/base.html" %}
 
-{% load crispy_forms_tags %}
 
 {% block body %}
   <div class="form-group">
@@ -10,7 +9,7 @@
         <div class="col-6">
           <form action="" method="POST">
               {% csrf_token %}
-              {{ form|crispy }}
+              {{ form.as_p }}
               <input type="submit" value="Submit">
               <a href="/tracker/" class="btn btn-warning btn-sm" role="button">Back</a>
           </form>

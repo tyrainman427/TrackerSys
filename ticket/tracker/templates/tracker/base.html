@@ -8,19 +8,48 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-light bg-light justify-content-between">
-      <a href="/tracker" class="navbar-brand">Tracker System</a>
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-      <div class="">
-        <a href="" class="btn btn-secondary btn-sm" role="button">Settings</a>
-        <a href="/tracker/create/" class="btn btn-success btn-sm" role="button">Create Ticket</a>
-        <a href="" class="btn btn-primary btn-sm" role="button">Sign Up/Log in</a>
-      </div>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">TrackerSys</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    {% if user.is_authenticated %}
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'tracker:index' %}">Dashboard <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+      </li>
+    </ul>
+    {% else %}
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="{% url 'login' %}" class="nav-link">Log In</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'register' %}" class="nav-link">Register</a>
+      </li>
+    </ul>
+    {% endif %}
+    <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  </div>
+</nav>
 
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
     {% block body%}
 
     {% endblock %}

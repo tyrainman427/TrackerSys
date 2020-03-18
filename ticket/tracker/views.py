@@ -14,9 +14,10 @@ class TicketCreateView(CreateView):
     def form_valid(self,form):
         return super().form_valid(form)
 
+
 class TicketListView(ListView):
     model = Ticket
-    queryset = Ticket.objects.all().order_by('-created_at')
+    queryset = Ticket.objects.order_by('-created_at').filter(current_status__contains='Open')
 
 class TicketDetailView(DetailView):
     template_name = "tracker/ticket_detail.html"

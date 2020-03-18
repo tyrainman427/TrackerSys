@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from django.contrib.auth.models import User 
 from django.utils import timezone
 from django.urls import reverse
 
@@ -32,3 +33,8 @@ class Ticket(models.Model):
 
     def __str__(self):
         return "Incident:" + self.incident_num + " " + self.title
+
+class TicketUser(models.Model):
+    is_admin = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket,on_delete=models.CASCADE)
