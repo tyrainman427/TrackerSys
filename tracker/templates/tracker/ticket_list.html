@@ -1,6 +1,7 @@
 {% extends "tracker/base.html" %}
 
 {%block body%}
+  {% if user.is_authenticated %}
   <div class="container">
       <a href="/tracker/create/" class="btn btn-success btn-sm" role="button">Create Ticket</a>
       <table class="table table-hover table-sm">
@@ -32,21 +33,10 @@
     </tbody>
   </table>
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-<a class="page-link" href="#" tabindex="-1">Previous</a>
-<li class="page-item"><a class="page-link" href="#">1</a></li>
-<li class="page-item"><a class="page-link" href="#">2</a></li>
-<li class="page-item"><a class="page-link" href="#">3</a></li>
-<li class="page-item">
-<a class="page-link" href="#">Next</a>
-</li>
-</ul>
-</nav>
-<div class="container">
-  <canvas id="lineChart"></canvas>
-</div>
+
     </div>
   </div>
-
+{% else %}
+ <h2><center>Please log in to view data!</center></h2>
+{% endif %}
 {% endblock %}
