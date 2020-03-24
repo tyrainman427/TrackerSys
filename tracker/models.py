@@ -25,6 +25,7 @@ class Ticket(models.Model):
     priority = models.CharField(max_length=10,choices=PRIORITY_STATUS)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
         null=True, blank=True, on_delete=models.SET_NULL)
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
     def get_absolute_url(self):

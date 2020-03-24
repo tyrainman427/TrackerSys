@@ -5,7 +5,9 @@ from .forms import TicketForm
 from django.contrib.auth.decorators import permission_required
 import csv, io
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
+import operator
+from functools import reduce
+from django.db.models import Q
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 
@@ -24,6 +26,23 @@ class TicketListView(ListView):
     # user_list = User.objects.all()
     queryset = Ticket.objects.all()#order_by('-created_at').filter(current_status__contains='Assigned')
     paginate_by = 5
+
+    def get_queryset(self):
+        result = super(TicketListView, self).get_queryset()
+
+        query = self.request.GET.get('q')
+        if query:
+            query_list = query.split()
+            result = result.filter(
+                reduce(operator.and_,
+                       (Q(title__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                       (Q(priority__icontains=q) for q in query_list)) |
+                reduce(operator.and_,
+                       (Q(name__icontains=q) for q in query_list))
+            )
+
+        return result
 
 class TicketDetailView(DetailView):
     template_name = "tracker/ticket_detail.html"

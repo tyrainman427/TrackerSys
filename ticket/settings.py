@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tracker',
+    'tracker.apps.TrackerConfig',
     'crispy_forms',
-    'users',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,10 +124,10 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-MEDIA_ROOT = (BASE_DIR)
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/profile-pics/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))

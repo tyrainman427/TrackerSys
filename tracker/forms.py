@@ -18,6 +18,7 @@ class TicketForm(forms.ModelForm):
     title = forms.CharField(max_length=100)
     summary = forms.CharField(widget=forms.Textarea)
     priority = forms.ChoiceField(choices=PRIORITY_STATUS,required=False)
+    
 
     class Meta:
         model = Ticket
