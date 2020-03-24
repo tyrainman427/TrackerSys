@@ -46,27 +46,10 @@
 
     {% endif %}
   </ul>
-  </nav>
 </div>
 {% endif %}
 
-    </div>
-  </div>
 {% else %}
  <h2><center>Please log in to view data!</center></h2>
 {% endif %}
-<script>
-$('#dt-basic-checkbox').dataTable({
-
-columnDefs: [{
-orderable: false,
-className: 'select-checkbox',
-targets: 0
-}],
-select: {
-style: 'os',
-selector: 'td:first-child'
-}
-});
-</script>
 {% endblock %}

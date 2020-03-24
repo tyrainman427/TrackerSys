@@ -1,80 +1,83 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/style.css' %}">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/style.css' %}">
 
 
-    <title></title>
-  </head>
-  <body>
+  <title>TRackrSys</title>
+</head>
+<body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-#355e3b">
-  <a class="navbar-brand" href="#">TrackerSys</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    {% if user.is_authenticated %}
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'tracker:index' %}">Dashboard <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <!-- <a href="{% url 'profile' %}" class="nav-link">Profile</a> -->
-        <div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Profile
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-  </div>
-</div>
-      </li>
-      <li class="nav-item">
-        <!-- <a href="{% url 'logout' %}" class="nav-link">Logout</a> -->
-        <div class="container">
-          <form id="searchform" action="{% url 'tracker:index' %}" method="get" accept-charset="utf-8">
-            <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
-            <button class="searchbutton" type="submit">
-              <i class="fa fa-search"></i>
+        <header class="site-header">
+          <nav class="navbar navbar-expand-lg navbar-light bg-#355e3b">
+            <a class="navbar-brand" href="#">TRackrSys</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
             </button>
-          </form>
-        </div>
-      </li>
-    </ul>
-    {% else %}
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a href="{% url 'login' %}" class="nav-link">Log In</a>
-      </li>
-      <li class="nav-item">
-        <a href="{% url 'register' %}" class="nav-link">Register</a>
-      </li>
-    </ul>
-    {% endif %}
-  </div>
-</nav>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              {% if user.is_authenticated %}
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'tracker:index' %}">Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <!-- <a href="{% url 'profile' %}" class="nav-link">Profile</a> -->
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Profile
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <!-- <a href="{% url 'logout' %}" class="nav-link">Logout</a> -->
+                  <div class="container">
+                    <form id="searchform" action="{% url 'tracker:index' %}" method="get" accept-charset="utf-8">
+                      <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+                      <button class="searchbutton" type="submit">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </form>
+                  </div>
+                </li>
+              </ul>
+              {% else %}
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a href="{% url 'login' %}" class="nav-link">Log In</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'register' %}" class="nav-link">Register</a>
+                </li>
+              </ul>
+              {% endif %}
+            </div>
+          </nav>
+        </header>
 
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
           {{ message }}
         </div>
-      {% endfor %}
-    {% endif %}
-    {% block body%}
+    {% endfor %}
+  {% endif %}
 
-    {% endblock %}
+  {% block body%}
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="{% static 'tracker/js/bootstrap.min.js' %}"></script>
-  </body>
+  {% endblock %}
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="{% static 'tracker/js/bootstrap.min.js' %}"></script>
+</body>
 </html>
