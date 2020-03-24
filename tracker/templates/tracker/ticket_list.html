@@ -1,10 +1,11 @@
 {% extends "tracker/base.html" %}
-
+{% load static %}
 {%block body%}
   {% if user.is_authenticated %}
   <div class="container">
-      <a href="/tracker/create/" class="btn btn-success btn-sm" role="button">Create Ticket</a>
-      <table class="table table-hover table-sm">
+      <a href="/tracker/create/" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
+      <!-- <table class="table table-hover table-sm"> -->
+      <table id="dt-basic-checkbox" class="table table-sm table-hover table-bordered" cellspacing="0" width="100%">
     <thead>
       <tr>
         <th scope="col">Ticket</th>
@@ -14,6 +15,7 @@
         <th scope="col">Submitter</th>
         <th scope="col">Status</th>
         <th scope="col">Priority</th>
+
       </tr>
     </thead>
     <tbody>
@@ -33,10 +35,38 @@
     </tbody>
   </table>
 
+  {% if is_paginated %}
+  <nav aria-label="Page navigation conatiner"></nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+
+    {% endif %}
+  </ul>
+  </nav>
+</div>
+{% endif %}
 
     </div>
   </div>
 {% else %}
  <h2><center>Please log in to view data!</center></h2>
 {% endif %}
+<script>
+$('#dt-basic-checkbox').dataTable({
+
+columnDefs: [{
+orderable: false,
+className: 'select-checkbox',
+targets: 0
+}],
+select: {
+style: 'os',
+selector: 'td:first-child'
+}
+});
+</script>
 {% endblock %}
