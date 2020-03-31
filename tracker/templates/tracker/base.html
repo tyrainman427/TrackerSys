@@ -4,15 +4,40 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/style.css' %}">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet"  href="{% static '/css/style.css' %}">
 
 
   <title>TRackrSys</title>
+
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-default">
+    <a class="navbar-brand" href="{% url 'tracker:index'%}">TRackrSys</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <header class="site-header">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tracker:index'%}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'profile' %}" class="nav-link"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Profile</a>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+        </li>
+      </ul>
+      <form class="form-inline my-lg-0 justify-content-end">
+        <input class="form-control mr-sm-2 form" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-success btn-small button" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+        <!-- <header class="site-header">
           <nav class="navbar navbar-expand-lg navbar-light bg-#355e3b">
             <a class="navbar-brand" href="#">TRackrSys</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,27 +51,17 @@
                 </li>
                 <li class="nav-item">
                   <!-- <a href="{% url 'profile' %}" class="nav-link">Profile</a> -->
-                  <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Profile
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                    </div>
-                  </div>
+                      <!-- <a class="dropdown-item" href="{% url 'profile' %}">View Profile</a>
                 </li>
                 <li class="nav-item">
                   <!-- <a href="{% url 'logout' %}" class="nav-link">Logout</a> -->
-                  <div class="container">
-                    <form id="searchform" action="{% url 'tracker:index' %}" method="get" accept-charset="utf-8">
+
+                  <!--  <form id="searchform" action="{% url 'tracker:index' %}" method="get" accept-charset="utf-8">
                       <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
                       <button class="searchbutton" type="submit">
                         <i class="fa fa-search"></i>
                       </button>
                     </form>
-                  </div>
                 </li>
               </ul>
               {% else %}
@@ -61,7 +76,7 @@
               {% endif %}
             </div>
           </nav>
-        </header>
+        </header> -->
 
   {% if messages %}
     {% for message in messages %}

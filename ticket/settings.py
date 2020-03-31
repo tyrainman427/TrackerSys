@@ -26,7 +26,7 @@ SECRET_KEY = '7i@l)c)b7v-btu4cz)cd=qf!z1dfdr^ikj)5hc#746&s*6f3c0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['trackersys.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['trackersys.herokuapp.com','127.0.0.1']
 
 
 # Application definition

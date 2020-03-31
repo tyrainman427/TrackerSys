@@ -4,20 +4,53 @@ from .models import Ticket, TicketUser
 from .forms import TicketForm
 from django.contrib.auth.decorators import permission_required
 import csv, io
+from braces.views import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 import operator
 from functools import reduce
 from django.db.models import Q
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import get_list_or_404, get_object_or_404
-from django.views.generic import DetailView, ListView, UpdateView, CreateView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 
 # Create your views here.
+
+def dashboard(request):
+    tickets = Ticket.objects.all()
+    users = User.objects.all()
+    user_tickets = Ticket.objects.all().filter(added_by=request.user)
+    open_tickets = Ticket.objects.filter(current_status__contains='Open')
+    high_priority_tickets = Ticket.objects.filter(priority__contains='High')
+    paginator = Paginator(user_tickets, 5)  # 3 posts in each page
+    page = request.GET.get('tickets')
+    try:
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+        post_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        post_list = paginator.page(paginator.num_pages)
+    context = {
+        'tickets':tickets,
+        'users':users,
+        'open_tickets':open_tickets,
+        'high_priority_tickets':high_priority_tickets,
+        'user_tickets':user_tickets,
+    }
+    return render(request, 'tracker/dashboard.html',context)
+
 class TicketCreateView(CreateView):
     template_name = "tracker/ticket_create.html"
     form_class = TicketForm
     queryset = Ticket.objects.all()
 
     def form_valid(self,form):
+        form.instance.added_by = self.request.user
+        self.object = form.save(commit=False)
+        self.object.current_status = "Open"
+        self.object.save()
         return super().form_valid(form)
 
 
@@ -63,6 +96,11 @@ class TicketUpdate(UpdateView):
 
     def form_valid(self,form):
         return super().form_valid(form)
+
+class TicketDeleteView(DeleteView):
+    model = Ticket
+    success_url = '/tracker/'
+
 
 @permission_required('admin.can_add_log_entry')
 def ticket_upload(request):
