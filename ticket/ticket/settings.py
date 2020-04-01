@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +26,7 @@ SECRET_KEY = '7i@l)c)b7v-btu4cz)cd=qf!z1dfdr^ikj)5hc#746&s*6f3c0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['trackersys.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['trackersys.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tracker',
+    'tracker.apps.TrackerConfig',
     'crispy_forms',
-    'users',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,10 +124,10 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-MEDIA_ROOT = (BASE_DIR)
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media/profile-pics/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
@@ -148,3 +148,5 @@ DATABASES['default'].update(prod_db)
 
 LOGIN_REDIRECT_URL = 'tracker:index'
 LOGIN_URL = 'login'
+# Activate Django-Heroku.
+django_heroku.settings(locals())

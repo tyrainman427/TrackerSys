@@ -1,0 +1,23 @@
+{% extends "tracker/base.html" %}
+
+{%block body%}
+
+  {% if messages %}
+    {% for message in messages %}
+      <div>
+          <strong>{{ message|safe }}</strong>
+      </div>
+    {% endfor %}
+  {% else %}
+  {{ order }}
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <labelUpload File></label>
+      <input type="file" name="file">
+      <p>Only upload csv files</p>
+      <button type="submit" name="button">Submit</button>
+  </form>
+  {% endif%}
+
+
+{% endblock %}

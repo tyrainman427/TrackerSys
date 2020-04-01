@@ -17,18 +17,10 @@ class TicketForm(forms.ModelForm):
     email = forms.CharField(max_length=100)
     title = forms.CharField(max_length=100)
     summary = forms.CharField(widget=forms.Textarea)
-    submitter = forms.CharField(max_length=100)
-    current_status = forms.ChoiceField(choices=TICKET_STATUS)
-    priority = forms.ChoiceField(choices=PRIORITY_STATUS)
+    priority = forms.ChoiceField(choices=PRIORITY_STATUS,required=False)
+
 
     class Meta:
         model = Ticket
-        fields = [
-            'name',
-            'email',
-            'title',
-            'summary',
-            'submitter',
-            'current_status',
-            'priority'
-        ]
+        fields = "__all__"
+        exclude = ('added_by',)
