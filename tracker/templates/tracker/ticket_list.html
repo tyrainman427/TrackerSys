@@ -22,19 +22,25 @@
       </tr>
     </thead>
     <tbody>
-      {% for item in object_list %}
-
-      <tr class="text-dark">
-        <th scope="row">{{item.id}}</th>
-        <td><a href="/tracker/{{item.id}}">{{ item.name }}</a></td>
-        <td><a href="/tracker/{{item.id}}">{{item.title}}</a></td>
-        <td><a href="/tracker/{{item.id}}">{{item.summary}}</a></td>
-        <td><a href="/tracker/{{item.id}}">{{item.added_by}}</a></td>
-        <td><a href="/tracker/{{item.id}}">{{item.current_status}}</a></td>
-        <td><a href="/tracker/{{item.id}}">{{item.priority}}</a></td>
+      {% if request.user.is_superuser %}
+      {% for ticket in object_list %}
+      <tr>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
       </tr>
-    </a>
       {% endfor %}
+      {% else %}
+      {% for ticket in user_tickets %}
+      <tr>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
+        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+      </tr>
+      {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 

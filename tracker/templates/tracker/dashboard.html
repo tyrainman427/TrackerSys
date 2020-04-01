@@ -3,156 +3,160 @@
 
 {%block body%}
 <header id="header">
-<div class="container">
-  <div class="row">
-    <div class="col-md-10">
-      <h1 id='banner'><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Manage your settings</small></h1>
-    </div>
-    <div class="col-md-2">
-      <div class="container">
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Create
-  </button>
-          <div class="dropdown-menu">
-            <h6 class="dropdown-header">Incident</h6>
-            <a class="dropdown-item" href="/tracker/create/">Ticket</a>
-            <a class="dropdown-item" href="/tracker/upload-csv/">Import CSV</a>
-            <!-- <a class="dropdown-item" href="#">Users</a> -->
-            <div class="dropdown-divider"></div>
-             <h6 class="dropdown-header">HR</h6>
-            <a class="dropdown-item" href="/tracker/create/">Ticket</a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <h1 id='banner'><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard <small>Manage your settings</small></h1>
+      </div>
+      <div class="col-md-2">
+        <div class="container">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Create
+            </button>
+            <div class="dropdown-menu">
+              <h6 class="dropdown-header">Incident</h6>
+              <a class="dropdown-item" href="/tracker/create/">Ticket</a>
+              {% if request.user.is_superuser %}
+              <a class="dropdown-item" href="/tracker/upload-csv/">Import CSV</a>
+              {% endif %}
+              <!-- <a class="dropdown-item" href="#">Users</a> -->
+              <div class="dropdown-divider"></div>
+              <h6 class="dropdown-header">HR</h6>
+              <a class="dropdown-item" href="/tracker/create/">Ticket</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  {% if request.user.is_superuser %}
 </header>
 <section id="breadcrumb">
-      <div class="container">
-        <ol class="breadcrumb">
-          <li class="active">Dashboard</li>
-        </ol>
-      </div>
-    </section>
-    <section id="main">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="list-group">
-              <a href="index.html" class="list-group-item active main">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
-                <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ tickets.count }}</span></a>
-               <a href="posts.html" class="list-group-item"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Projects <span class="badge">0</span></a>
-               <a href="users.html" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
-            </div>
+  <div class="container">
+    <ol class="breadcrumb">
+      <li class="active">Dashboard</li>
+    </ol>
+  </div>
+</section>
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group">
+          <a href="index.html" class="list-group-item active main">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
+            <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ticket_count}}</span></a>
+            <a href="posts.html" class="list-group-item"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Projects <span class="badge">0</span></a>
+            <a href="users.html" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
+          </div>
 
-            <div class="well">
-              <h4>Disk Space Used</h4>
-              <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                      60%
+          <div class="well">
+            <h4>Disk Space Used</h4>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                60%
               </div>
             </div>
             <h4>Bandwidth Used </h4>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-                    40%
+              <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                40%
+              </div>
             </div>
           </div>
+        </div>
+        <div class="col-md-9">
+          <!-- Website Overview -->
+          <div class="panel panel-default">
+            <div class="panel-heading main-color-bg">
+              <h3 class="panel-title">Incidents Overview</h3>
+            </div>
+            <div class="panel-body">
+              <div class="col-md-3">
+                <div class="well dash-box">
+                  <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{users.count}}</h2>
+                  <h4>Users</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="well dash-box">
+                  <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{ticket_count}}</h2>
+                  <h4>Incidents</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="well dash-box">
+                  <h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> {{open_tickets.count}}</h2>
+                  <h4>Open Incidents</h4>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="well dash-box">
+                  <h2><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> {{high_priority_tickets.count}}</h2>
+                  <h4>Urgent Tickets</h4>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-md-9">
-            <!-- Website Overview -->
-            <div class="panel panel-default">
-              <div class="panel-heading main-color-bg">
-                <h3 class="panel-title">Incidents Overview</h3>
-              </div>
-              <div class="panel-body">
-                <div class="col-md-3">
-                  <div class="well dash-box">
-                    <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{users.count}}</h2>
-                    <h4>Users</h4>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="well dash-box">
-                    <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{tickets.count}}</h2>
-                    <h4>Incidents</h4>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="well dash-box">
-                    <h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> {{open_tickets.count}}</h2>
-                    <h4>Open Incidents</h4>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="well dash-box">
-                    <h2><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> {{high_priority_tickets.count}}</h2>
-                    <h4>Urgent Tickets</h4>
-                  </div>
-                </div>
-              </div>
-              </div>
+          {% endif %}
+          <!-- Latest Users -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Latest Incidents</h3>
+            </div>
+            <div class="panel-body">
+              <table class="table table-striped table-hover">
+                <tr>
+                  <th>Name</th>
+                  <th>Title</th>
+                  <th>Summary</th>
+                  <th>Date Created</th>
+                </tr>
+                {% if request.user.is_superuser %}
+                {% for ticket in tickets %}
+                <tr>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                {% for ticket in user_tickets %}
+                <tr>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
+                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+              </table>
+              <nav>
+                  <ul class="pagination">
+                    {% if tickets.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ tickets.previous_page_number }}">< Prev</a></li>
+                    {% endif %}
 
-              <!-- Latest Users -->
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">Latest Incidents</h3>
-                </div>
-                <div class="panel-body">
-                  <table class="table table-striped table-hover">
-                      <tr>
-                        <th>Name</th>
-                        <th>Title</th>
-                        <th>Summary</th>
-                        <th>Date Created</th>
-                      </tr>
-                      {% if request.user.is_superuser %}
-                      {% for ticket in tickets %}
-                      <tr>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
-                      </tr>
-                      {% endfor %}
-                      {% else %}
-                      {% for ticket in user_tickets %}
-                      <tr>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-                        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
-                      </tr>
-                      {% endfor %}
-                      {% endif %}
-                    </table>
+                    {% if tickets.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ tickets.next_page_number }}">Next ></a></li>
+                    {% endif %}
 
-                    {% if is_paginated %}
-                    <nav aria-label="Page navigation conatiner"></nav>
-                    <ul class="pagination justify-content-center">
-                      {% if page_obj.has_previous %}
-                      <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
-                      {% endif %}
-                      {% if page_obj.has_next %}
-                      <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
-
-                      {% endif %}
-                    </ul>
-                        {% endif %}
-                </div>
+                    <!-- <li class="page-item"><span>Page {{ tickets.number }} of {{ tickets.paginator.num_pages }}</span></li> -->
+                  </ul>
+                </nav>
               </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
 
-    <footer class="justify-content-center" id="footer">
-     <p>Copyright TRackrSys, &copy; 2020</p>
-   </footer>
+  <footer class="justify-content-center" id="footer">
+    <p>Copyright TRackrSys, &copy; 2020</p>
+  </footer>
 
-{% endblock %}
+  {% endblock %}

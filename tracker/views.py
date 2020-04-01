@@ -19,25 +19,32 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, D
 def dashboard(request):
     tickets = Ticket.objects.all()
     users = User.objects.all()
+    ticket_count = tickets.count()
     user_tickets = Ticket.objects.all().filter(added_by=request.user)
     open_tickets = Ticket.objects.filter(current_status__contains='Open')
     high_priority_tickets = Ticket.objects.filter(priority__contains='High')
-    paginator = Paginator(user_tickets, 5)  # 3 posts in each page
-    page = request.GET.get('tickets')
+    paginator = Paginator(tickets, 5)
+    # get the page parameter from the query string
+    # if page parameter is available get() method will return empty string ''
+    page = request.GET.get('page')
+
     try:
-        post_list = paginator.page(page)
+        # create Page object for the given page
+        tickets = paginator.page(page)
     except PageNotAnInteger:
-            # If page is not an integer deliver the first page
-        post_list = paginator.page(1)
+        # if page parameter in the query string is not available, return the first page
+        tickets = paginator.page(10)
     except EmptyPage:
-        # If page is out of range deliver last page of results
-        post_list = paginator.page(paginator.num_pages)
+        # if the value of the page parameter exceeds num_pages then return the last page
+        tickets = paginator.page(paginator.num_pages)
+
     context = {
         'tickets':tickets,
         'users':users,
         'open_tickets':open_tickets,
         'high_priority_tickets':high_priority_tickets,
         'user_tickets':user_tickets,
+        'ticket_count':ticket_count,
     }
     return render(request, 'tracker/dashboard.html',context)
 
