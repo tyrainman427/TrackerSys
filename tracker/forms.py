@@ -23,4 +23,4 @@ class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = "__all__"
-        exclude = ('added_by','current_status',)
+        exclude = ('added_by',)
