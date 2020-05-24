@@ -20,7 +20,7 @@ def dashboard(request):
     tickets = Ticket.objects.all()
     users = User.objects.all()
     ticket_count = tickets.count()
-    # user_tickets = Ticket.objects.all().filter(added_by=request.user)
+    user_tickets = Ticket.objects.all().filter(added_by=request.user)
     open_tickets = Ticket.objects.filter(current_status__contains='Open')
     high_priority_tickets = Ticket.objects.filter(priority__contains='High')
     paginator = Paginator(tickets, 5)
@@ -43,7 +43,7 @@ def dashboard(request):
         'users':users,
         'open_tickets':open_tickets,
         'high_priority_tickets':high_priority_tickets,
-        # 'user_tickets':user_tickets,
+        'user_tickets':user_tickets,
         'ticket_count':ticket_count,
     }
     return render(request, 'tracker/dashboard.html',context)
@@ -135,6 +135,9 @@ def ticket_upload(request):
     context = {}
     return render(request,template, context)
 
+def get_users(request):
+    users = User.objects.all()
+    return render(request, 'tracker/user_list.html',{"users":users})
 
 
 def get_ticket(request):

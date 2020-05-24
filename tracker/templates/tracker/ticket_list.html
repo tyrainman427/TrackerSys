@@ -25,19 +25,19 @@
       {% if request.user.is_superuser %}
       {% for ticket in object_list %}
       <tr>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
       </tr>
       {% endfor %}
       {% else %}
       {% for ticket in user_tickets %}
       <tr>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-        <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
       </tr>
       {% endfor %}
       {% endif %}
