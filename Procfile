@@ -1,2 +1,3 @@
-release: python manage.py migrate
-web: gunicorn wsgi:application
+web: gunicorn ticket.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
