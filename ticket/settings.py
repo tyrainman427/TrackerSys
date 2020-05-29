@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ SECRET_KEY = '7i@l)c)b7v-btu4cz)cd=qf!z1dfdr^ikj)5hc#746&s*6f3c0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['trackersys.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,11 +143,14 @@ STATICFILES_DIRS = (
 #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorag'
 
-import dj_database_url
-prod_db  =  dj_database_url.config(conn_max_age=500)
+
+prod_db  =  dj_database_url.config(conn_max_age=500, ssl_require=True))
 DATABASES['default'].update(prod_db)
 
 LOGIN_REDIRECT_URL = 'tracker:index'
 LOGIN_URL = 'login'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())
