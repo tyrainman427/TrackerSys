@@ -47,18 +47,18 @@
           <a href="index.html" class="list-group-item active main">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
             <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ticket_count}}</span></a>
-            <a href="posts.html" class="list-group-item"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></a>
-            <a href="users.html" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
+            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></a>
+            <a href="{% url 'tracker:get-users'%}" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
           </div>
 
           <div class="well">
-            <h4>Disk Space Used</h4>
+            <h4>Urgent Ticket %</h4>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                60%
+                10%
               </div>
             </div>
-            <h4>Bandwidth Used </h4>
+            <h4>Open Ticket %</h4>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
                 40%
@@ -116,19 +116,19 @@
                 {% if request.user.is_superuser %}
                 {% for ticket in tickets %}
                 <tr>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
                 </tr>
                 {% endfor %}
                 {% else %}
                 {% for ticket in user_tickets %}
                 <tr>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ ticket.name }}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.title}}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.summary}}</a></td>
-                  <td><a href="{% url 'tracker:detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
@@ -156,7 +156,7 @@
 
 
   <footer class="justify-content-center" id="footer">
-    <p>Copyright TRackrSys, &copy; 2020</p>
+    <center><p>Copyright TRackrSys, &copy; 2020</p></center>
   </footer>
 
   {% endblock %}

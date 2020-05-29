@@ -4,7 +4,7 @@ from .models import Ticket, TicketUser
 from .forms import TicketForm
 from django.contrib.auth.decorators import permission_required
 import csv, io
-from braces.views import LoginRequiredMixin
+# from braces.views import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 import operator
@@ -135,6 +135,9 @@ def ticket_upload(request):
     context = {}
     return render(request,template, context)
 
+def get_users(request):
+    users = User.objects.all()
+    return render(request, 'tracker/user_list.html',{"users":users})
 
 
 def get_ticket(request):

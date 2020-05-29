@@ -29,7 +29,7 @@ class Ticket(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('tracker:detail', kwargs={'id': self.id})
+        return reverse('tracker:ticket_detail', kwargs={'id': self.id})
 
     def was_published_recently(self):
         return self.created_at >= timezone.now() - datetime.timedelta(days=1)
