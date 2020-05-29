@@ -15,6 +15,7 @@ pytz = "*"
 whitenoise = "*"
 requests= "*"
 django-crispy-forms="*"
+Pillow="*"
 
 [requires]
 python_version = "3.6"
