@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Ticket, TicketUser
 from .forms import TicketForm
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required,login_required
 import csv, io
 # from braces.views import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -16,10 +16,11 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, D
 
 # Create your views here.
 
+@login_required
 def dashboard(request):
     tickets = Ticket.objects.all()
     users = User.objects.all()
-    ticket_count = tickets.count()
+    ticket_count = len(tickets)
     user_tickets = Ticket.objects.all().filter(added_by=request.user)
     open_tickets = Ticket.objects.filter(current_status__contains='Open')
     high_priority_tickets = Ticket.objects.filter(priority__contains='High')

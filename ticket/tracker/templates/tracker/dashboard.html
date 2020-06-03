@@ -47,9 +47,30 @@
           <a href="index.html" class="list-group-item active main">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
             <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ticket_count}}</span></a>
-            <a href="#" class="list-group-item"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></a>
+            <!-- <a href="#" type="button" class="list-group-item"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></a> -->
+            <button type="button" class="btn btn-primary list-group-item" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></button>
             <a href="{% url 'tracker:get-users'%}" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
           </div>
+
+          <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inventory Feature</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        This feature will be in the next update
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+        </div>
+        </div>
 
           <div class="well">
             <h4>Urgent Ticket %</h4>
@@ -153,6 +174,28 @@
       </div>
     </div>
   </section>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+...
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="button" class="btn btn-primary">Save changes</button>
+</div>
+</div>
+</div>
+</div>
+
 
 
   <footer class="justify-content-center" id="footer">

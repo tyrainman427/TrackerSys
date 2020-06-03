@@ -3,9 +3,9 @@
 {%block body%}
   {% if user.is_authenticated %}
   <div class="container">
-      <a href="/tracker/create/" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
+      <a href="/create/" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
       {% if request.user.is_superuser %}
-      <a href="/tracker/upload-csv/" class="btn btn-warning btn-sm mt-3 mb-3" role="button">Upload Ticket</a>
+      <a href="/upload-csv/" class="btn btn-warning btn-sm mt-3 mb-3" role="button">Upload Ticket</a>
       {% endif %}
       <!-- <table class="table table-hover table-sm"> -->
       <table id="dt-basic-checkbox" class="table table-sm table-hover table-bordered" cellspacing="0" width="100%">
@@ -32,6 +32,7 @@
       </tr>
       {% endfor %}
       {% else %}
+    
       {% for ticket in user_tickets %}
       <tr>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
@@ -40,7 +41,9 @@
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
       </tr>
       {% endfor %}
+
       {% endif %}
+
     </tbody>
   </table>
 
