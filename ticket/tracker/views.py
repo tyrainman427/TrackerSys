@@ -20,7 +20,6 @@ from django.views.generic import DetailView, ListView, UpdateView, CreateView, D
 def dashboard(request):
     tickets = Ticket.objects.all()
     users = User.objects.all()
-    ticket_count = len(tickets)
     user_tickets = Ticket.objects.all().filter(added_by=request.user)
     open_tickets = Ticket.objects.filter(current_status__contains='Open')
     high_priority_tickets = Ticket.objects.filter(priority__contains='High')
@@ -29,15 +28,15 @@ def dashboard(request):
     # if page parameter is available get() method will return empty string ''
     page = request.GET.get('page')
 
-    try:
-        # create Page object for the given page
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # if page parameter in the query string is not available, return the first page
-        tickets = paginator.page(10)
-    except EmptyPage:
-        # if the value of the page parameter exceeds num_pages then return the last page
-        tickets = paginator.page(paginator.num_pages)
+    # try:
+    #     # create Page object for the given page
+    #     tickets = paginator.page(page)
+    # except PageNotAnInteger:
+    #     # if page parameter in the query string is not available, return the first page
+    #     tickets = paginator.page(10)
+    # except EmptyPage:
+    #     # if the value of the page parameter exceeds num_pages then return the last page
+    #     tickets = paginator.page(paginator.num_pages)
 
     context = {
         'tickets':tickets,
@@ -45,7 +44,6 @@ def dashboard(request):
         'open_tickets':open_tickets,
         'high_priority_tickets':high_priority_tickets,
         'user_tickets':user_tickets,
-        'ticket_count':ticket_count,
     }
     return render(request, 'tracker/dashboard.html',context)
 
