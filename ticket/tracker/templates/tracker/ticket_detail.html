@@ -12,33 +12,95 @@
     {% endif%}
     <!-- <a href="/" class="btn btn-info btn-sm mt-3 mr-2" role="button">Resolved</a> -->
     <a href="/" class="btn btn-danger btn-sm mt-3 mr-2" role="button">Cancel</a>
-    <table class="table table-sm table-hover table-bordered mt-3" cellspacing="0" width="100%">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Title</th>
-          <th scope="col">summary</th>
-          <th scope="col">Status</th>
-          <th scope="col">Priority</th>
-          <th scope="col">Created</th>
-          <th scope="col">Assigned</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">{{ ticket.id }}</th>
-          <td>{{ticket.name}}</td>
-          <td>{{ticket.title}}</td>
-          <td>{{ticket.summary}}</td>
-          <td>{{ticket.current_status}}</td>
-          <td>{{ticket.priority}}</td>
-          <td>{{ticket.created_at}}</td>
-          <td>{{ticket.added_by}}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
+    <div class="row">
+      <ul class="nav nav-pills">
+          <li><a data-toggle="pill" href="#home">Ticket Details</a></li>
+          <li><a data-toggle="pill" href="#notes">Notes</a></li>
+          <li><a data-toggle="pill" href="#menu2">User Info</a></li>
+          <li><a data-toggle="pill" href="#menu3">Past Tickets</a></li>
+        </ul>
+
+    </div>
+    <div class="row">
+        <div class="tab-content">
+          <div id="home" class="tab-pane fade in active">
+            <table class="table table-sm table-hover table-bordered mt-3" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Priority</th>
+                  <th scope="col">Created</th>
+                  <th scope="col">Created By</th>
+                  <th scope="col">Assigned</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{ ticket.id }}</th>
+                  <td>{{ticket.title}}</td>
+                  <td>{{ticket.current_status}}</td>
+                  <td>{{ticket.priority}}</td>
+                  <td>{{ticket.created_at}}</td>
+                  <td>{{ticket.added_by}}</td>
+                  <td>{{ticket.assigned}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <form class="" method="post">
+              {% csrf_token %}
+        {{ form.ticket.label }}: {{ form.fieldname }}
+            </form>
+          </div>
+
+
+          <div id="notes" class="tab-pane fade">
+            <h3>Ticket Change Log</h3>
+
+            <table class="table table-sm table-hover table-bordered mt-3" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+
+                  <th scope="col">Title</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Comment</th>
+                  <th scope="col">Changed By</th>
+                  <th scope="col">Assigned</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for info in object.history.all%}
+                <tr>
+
+                  <td>{{info.title}}</td>
+                  <td>{{info.current_status}}</td>
+                  <td>{{info.Comment}}</td>
+                  <td>{{info.added_by}}</td>
+                  <td>{{info.assigned}}</td>
+                </tr>
+                  {%endfor%}
+              </tbody>
+
+            </table>
+            <section>
+              Summary:
+              <hr>
+            <input type="textbox" name="" value="{{ticket.summary}}">
+            </section>
+          </div>
+          <div id="menu2" class="tab-pane fade">
+            <h3>User Info</h3>
+            <p>Name: {{ticket.name }}</p>
+          </div>
+          <div id="menu3" class="tab-pane fade">
+            <h3>Past Tickets</h3>
+            <p>Not implemented yet</p>
+          </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

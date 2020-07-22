@@ -1,0 +1,76 @@
+{% extends "tracker/base.html" %}
+{% load static %}
+{%block body%}
+  {% if user.is_authenticated %}
+  <div class="container">
+      <a href="/create/" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
+      {% if request.user.is_superuser %}
+      <a href="/upload-csv/" class="btn btn-warning btn-sm mt-3 mb-3" role="button">Upload Ticket</a>
+      {% endif %}
+
+      <!-- <div class="row">
+        <div class="col">
+          <div class="card card-body">
+          <form class="form-group form-inline" method="get">
+           {{ filter.form }}
+            <button class="btn btn-primary btn-sm ml-2" type="submit" name="button">Search</button>
+          </form>
+        </div>
+        </div>
+      </div> -->
+      <form action="{% url 'tracker:ticket-list' %}" method="get">
+        <p>Filter by Name: <input type="text" name="filter"/></p>
+        {{ filter }}
+        <p><input type="submit" name="submit" /></p>
+    </form>
+      <!-- <table class="table table-hover table-sm"> -->
+      <table id="dt-basic-checkbox" class="table table-sm table-hover table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th scope="col">Ticket</th>
+        <th scope="col">Name</th>
+        <th scope="col">Title</th>
+        <th scope="col">Summary</th>
+        <th scope="col">Submitter</th>
+        <th scope="col">Status</th>
+        <th scope="col">Priority</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% if request.user.is_superuser %}
+      {% for ticket in object_list %}
+      <tr>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.added_by}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.current_status}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.priority}}</a></td>
+
+      </tr>
+      {% endfor %}
+      {% endif %}
+
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+  <nav aria-label="Page navigation conatiner"></nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+{% else %}
+ <h2><center>Please log in to view data!</center></h2>
+{% endif %}
+{% endblock %}

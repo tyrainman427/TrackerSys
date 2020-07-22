@@ -24,6 +24,9 @@
               <div class="dropdown-divider"></div>
               <h6 class="dropdown-header">HR</h6>
               <a class="dropdown-item" href="/tracker/create/">Ticket</a>
+              <div class="dropdown-divider"></div>
+              <h6 class="dropdown-header">Groups</h6>
+              <a class="dropdown-item" href="/create_group/">Create Group</a>
             </div>
           </div>
         </div>
@@ -46,7 +49,7 @@
         <div class="list-group">
           <a href="index.html" class="list-group-item active main">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
-            <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ticket_count}}</span></a>
+            <a href="{% url 'tracker:ticket-list' %}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Tickets <span class="badge">{{ticket_count.count}}</span></a>
             <!-- <a href="#" type="button" class="list-group-item"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></a> -->
             <button type="button" class="btn btn-primary list-group-item" data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Inventory <span class="badge">0</span></button>
             <a href="{% url 'tracker:get-users'%}" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <span class="badge">{{ users.count }}</span></a>
@@ -75,14 +78,14 @@
           <div class="well">
             <h4>Urgent Ticket %</h4>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                10%
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{tik_count_percent}}" aria-valuemin="{{tik_count_percent}}" aria-valuemax="100" style="width: {{tik_count_percent}}%;">
+                {{tik_count_percent}}%
               </div>
             </div>
             <h4>Open Ticket %</h4>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-                40%
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{open_tik_percent}}" aria-valuemin="{{open_tik_percent}}" aria-valuemax="100" style="width: {{open_tik_percent}}%;">
+                {{open_tik_percent}}%
               </div>
             </div>
           </div>
@@ -93,6 +96,9 @@
             <div class="panel-heading main-color-bg">
               <h3 class="panel-title">Incidents Overview</h3>
             </div>
+
+            <div class="myChart" id="myChart"></div>
+
             <div class="panel-body">
               <div class="col-md-3">
                 <div class="well dash-box">
@@ -102,7 +108,7 @@
               </div>
               <div class="col-md-3">
                 <div class="well dash-box">
-                  <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{tickets.count}}</h2>
+                  <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{ticket_count.count}}</h2>
                   <h4>Incidents</h4>
                 </div>
               </div>
@@ -122,6 +128,18 @@
           </div>
           {% endif %}
           <!-- Latest Users -->
+          {% if request.user.is_superuser%}
+          <div class="row">
+            <div class="col">
+              <div class="card card-body">
+              <form class="form-group form-inline" method="get">
+               {{ filter.form }}
+                <button class="btn btn-primary btn-sm ml-2" type="submit" name="button">Search</button>
+              </form>
+            </div>
+            </div>
+          </div>
+          {% endif %}
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Latest Incidents</h3>
@@ -129,18 +147,24 @@
             <div class="panel-body">
               <table class="table table-striped table-hover">
                 <tr>
-                  <th>Name</th>
+                  <th>Ticket Id</th>
                   <th>Title</th>
                   <th>Summary</th>
                   <th>Date Created</th>
+                  <th>Submitter</th>
+                  <th>Status</th>
+                  <th>Priority</th>
                 </tr>
                 {% if request.user.is_superuser %}
                 {% for ticket in tickets %}
                 <tr>
-                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
-                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.ticket_id }}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}[{{ticket.name}}]</a></td>
                   <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
                   <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.added_by}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.current_status}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.priority}}</a></td>
                 </tr>
                 {% endfor %}
                 {% else %}
@@ -150,10 +174,21 @@
                   <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
                   <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
                   <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.added_by}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.current_status}}</a></td>
+                  <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.priority}}</a></td>
                 </tr>
                 {% endfor %}
                 {% endif %}
               </table>
+
+              <ul>
+                {% for hist in history %}
+                {% for ticket in tickets %}
+                  <li>Changes made by: {{ hist.added_by }} on {{ticket.title}}</li>
+                {% endfor %}
+                {% endfor %}
+              </ul>
               <nav>
                   <ul class="pagination">
                     {% if tickets.has_previous %}
@@ -174,6 +209,63 @@
       </div>
     </div>
   </section>
+
+  <script>
+
+  let myConfig = {
+  type: 'bar',
+  title: {
+    text: 'Data Basics',
+    fontSize: 24,
+  },
+  legend: {
+    draggable: true,
+  },
+  scaleX: {
+    // Set scale label
+    label: { text: 'Techs' },
+    // Convert text on scale indices
+    labels: [ 'Admin', 'Etty', 'John' ]
+  },
+  scaleY: {
+    // Scale label with unicode character
+    label: { text: 'Tickets' }
+  },
+  plot: {
+    // Animation docs here:
+    // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+    animation: {
+      effect: 'ANIMATION_EXPAND_BOTTOM',
+      method: 'ANIMATION_STRONG_EASE_OUT',
+      sequence: 'ANIMATION_BY_NODE',
+      speed: 275,
+    }
+  },
+  series: [
+    {
+      // plot 1 values, linear data
+      values: [23,20,27],
+      text: 'Low',
+    },
+    {
+      // plot 2 values, linear data
+      values: [35,42,33],
+      text: 'Medium'
+    },
+    {
+      // plot 2 values, linear data
+      values: [15,22,13],
+      text: 'High'
+    }
+  ]
+};
+
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+    });
+
+  </script>
 
   <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

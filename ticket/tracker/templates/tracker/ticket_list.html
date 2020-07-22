@@ -3,7 +3,9 @@
 {%block body%}
   {% if user.is_authenticated %}
   <div class="container">
-      <a href="/create/" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
+      <h1><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Ticket View <small>Manage your tickets</small></h1>
+      <hr>
+      <a href="{% url 'tracker:ticket-create' %}" class="btn btn-success btn-sm mt-3 mb-3" role="button">Create Ticket</a>
       {% if request.user.is_superuser %}
       <a href="/upload-csv/" class="btn btn-warning btn-sm mt-3 mb-3" role="button">Upload Ticket</a>
       {% endif %}
@@ -29,16 +31,22 @@
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.added_by}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.current_status}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.priority}}</a></td>
       </tr>
       {% endfor %}
       {% else %}
-    
+
       {% for ticket in user_tickets %}
       <tr>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ ticket.name }}</a></td>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.title}}</a></td>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.summary}}</a></td>
         <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.created_at}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.added_by}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.current_status}}</a></td>
+        <td><a href="{% url 'tracker:ticket_detail' ticket.id %}">{{ticket.priority}}</a></td>
       </tr>
       {% endfor %}
 

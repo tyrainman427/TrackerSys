@@ -1,5 +1,5 @@
 {% extends "tracker/base.html" %}
-
+{% load crispy_forms_tags %}
 
 {% block body %}
   <div class="form-group">
@@ -7,10 +7,10 @@
         <h3>Ticket Information</h3>
       <div class="row">
         <div class="col-6">
-          <form action="" method="POST">
+          <form class="create-form" method="POST">
               {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Submit">
+              {{form|crispy}}
+              <input class="btn btn-primary btn-sm" type="submit" value="Submit">
               <a href="/tickets" class="btn btn-warning btn-sm" role="button">Back</a>
           </form>
         </div>

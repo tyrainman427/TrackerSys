@@ -1,0 +1,61 @@
+{% extends "tracker/base.html" %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    {% if request.user.is_superuser %}
+    <a href="group_update/" class="btn btn-secondary btn-sm mt-3 mr-2" role="button">Edit Group</a>
+    <a href="group_delete/" class="btn btn-warning btn-sm mt-3 mr-2" role="button">Delete Group</a>
+    {% endif%}
+    <!-- <a href="/" class="btn btn-info btn-sm mt-3 mr-2" role="button">Resolved</a> -->
+    <a href="/" class="btn btn-danger btn-sm mt-3 mr-2" role="button">Cancel</a>
+  </div>
+    <div class="row">
+      <ul class="nav nav-pills">
+          <li><a data-toggle="pill" href="#home">Ticket Details</a></li>
+          <li><a data-toggle="pill" href="#notes">Notes</a></li>
+          <li><a data-toggle="pill" href="#menu2">User Info</a></li>
+          <li><a data-toggle="pill" href="#menu3">Past Tickets</a></li>
+        </ul>
+
+    </div>
+    <div class="row">
+        <div class="tab-content">
+          <div id="home" class="tab-pane fade in active">
+            <table class="table table-sm table-hover table-bordered mt-3" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Group Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{ object.id }}</th>
+                  <td>{{object.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="notes" class="tab-pane fade">
+            <h3>Notes</h3>
+            <p>{{ticket.summary}}</p>
+          </div>
+          <div id="menu2" class="tab-pane fade">
+            <h3>User Info</h3>
+            <p>Name: {{ticket.name }}</p>
+          </div>
+          <div id="menu3" class="tab-pane fade">
+            <h3>Past Tickets</h3>
+            <p>Not implemented yet</p>
+          </div>
+        </div>
+    </div>
+
+  <div class="row">
+
+  </div>
+</div>
+
+{% endblock %}
