@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
@@ -147,6 +147,6 @@ LOGIN_URL = 'login'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import django_heroku
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+# import django_heroku
+# # Activate Django-Heroku.
+# django_heroku.settings(locals())
