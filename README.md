@@ -10,7 +10,10 @@ This app is a basic ticketing app where a user can make a issue ticket and a tec
 - Python
 
 ## Screenshots (if applicable)
-
+![s1](https://github.com/tyrainman427/TrackerSys/assets/61444675/7f0b0829-30b2-4b67-9bad-f9e89b57a52b)
+![s2](https://github.com/tyrainman427/TrackerSys/assets/61444675/6e17d4bd-2b89-4c24-8baf-21cef5010bce)
+![s3](https://github.com/tyrainman427/TrackerSys/assets/61444675/4432b104-d23b-405e-ab4b-cc7fd1015877)
+![s4](https://github.com/tyrainman427/TrackerSys/assets/61444675/ac2b896b-6279-4819-a63c-c27f4c1226df)
 
 ## Demo
 N/A
